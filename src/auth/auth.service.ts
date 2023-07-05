@@ -57,8 +57,14 @@ export class AuthService {
 
     const checkPassword = await compare(data.password, checkUser.password);
     if (checkPassword) {
+      const accessToken = this.generateJWT({
+        sub: checkUser.id,
+        name: checkUser.name,
+        email: checkUser.email,
+      });
       return {
         statusCode: HttpStatus.OK,
+        accessToken: accessToken,
         message: 'Login Berhasil',
       };
     } else {
