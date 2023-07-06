@@ -76,6 +76,32 @@ export class AuthService {
   }
 
   /**
+   * Find user by id
+   * @param user_id
+   */
+  async profile(user_id: number) {
+    const dataUser = await this.prisma.users.findFirst({
+      where: {
+        id: user_id,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        avatar: true,
+      },
+    });
+    if (dataUser) {
+      return {
+        statusCode: HttpStatus.OK,
+        data: dataUser,
+      };
+    }
+
+    throw new HttpException('User tidak ditemukan', HttpStatus.NOT_FOUND);
+  }
+
+  /**
    * Generate JWT Token
    * @param payload
    * @returns
