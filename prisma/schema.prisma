@@ -12,9 +12,11 @@ datasource db {
 
 model tasks {
   id               Int      @id @default(autoincrement())
+  id_user          Int
   task_name        String
   task_description String   @db.Text
   creted_at        DateTime @default(now())
+  users            users    @relation(fields: [id_user], references: [id])
 }
 
 model users {
@@ -24,4 +26,5 @@ model users {
   password   String
   avatar     String?
   created_at DateTime @default(now())
+  tasks      tasks[]
 }
